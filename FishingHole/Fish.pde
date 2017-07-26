@@ -1,4 +1,4 @@
-class Fish extends SeaCritter {
+class Fish extends SeaLife {
   color c;
   float vel;
   boolean movingRight = true;
@@ -7,10 +7,15 @@ class Fish extends SeaCritter {
   Fish(float xx, float yy) {
     x = xx;
     y = yy;
-    int len = 3;
+    int len = 6;
     color[] cols = {
-      color(255, 0, 0), color(0, 255, 0), 
-      color(255, 255, 0)};
+      color(255, 0, 0), 
+      color(0, 255, 0), 
+      color(255, 255, 0), 
+      color(255, 0, 255), 
+      color(255, 165, 0), 
+      color(30, 144, 255)
+    };
     c = cols[int(random(100))%len];
 
     vel = 1.5;

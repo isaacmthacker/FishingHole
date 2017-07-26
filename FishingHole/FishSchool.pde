@@ -1,31 +1,41 @@
 class FishSchool {
-  ArrayList<Fish> fish;
-
-  FishSchool(int numFish) {
-    fish = new ArrayList<Fish>();
+  Fish[] fish;
+  float sandHeight;
+  FishSchool(int numFish, float sandHei) {
+    fish = new Fish[numFish];
+    sandHeight = sandHei;
     for (int i = 0; i < numFish; ++i) {
-      float fx = 0;
-      if (random(1) < 0.5) {
-        fx = width;
-      }
-      fish.add(new Fish(fx, random(height)));
+      fish[i] = createFish();
     }
   }
 
   void run() {
-    for (int i = 0; i < fish.size(); ++i) {
-      Fish f = fish.get(i);
+    ArrayList<Integer> toReplace = new ArrayList<Integer>();
+    for (int i = 0; i < numFish; ++i) {
+      Fish f = fish[i];
       f.display();
       f.move();
       if (f.movingRight) {
         if (f.x > width+f.fishLen) {
-          fish.remove(i);
+          toReplace.add(i);
         }
       } else {
         if (f.x < -f.fishLen) {
-          fish.remove(i);
+          toReplace.add(i);
         }
       }
     }
+    for (Integer i : toReplace) {
+      fish[i] = createFish();
+    }
+  }
+
+  Fish createFish() {
+    float offset = random(width/10.0, 2*width);
+    float fx = -offset;
+    if (random(1) < 0.5) {
+      fx = width+offset;
+    }
+    return new Fish(fx, random(height-sandHeight));
   }
 }
