@@ -6,6 +6,10 @@ float sandHeight;
 
 ArrayList<Bubbles> bubbles = new ArrayList<Bubbles>();
 
+int numSpecs = int(random(50, 100));
+float[][] sandSpecs;
+
+StarFish starFish;
 
 void setup() {
   size(1300, 700);
@@ -14,6 +18,12 @@ void setup() {
   for (int i = 0; i < numSeaWeed; ++i) {
     seaweed.add(new SeaWeed(random(width), random(height-sandHeight, height)));
   }
+  sandSpecs = new float[numSpecs][2];
+  for (int i = 0; i < numSpecs; ++i) {
+    sandSpecs[i][0] = random(width);
+    sandSpecs[i][1] = random(height-sandHeight, height);
+  }
+  starFish = new StarFish();
 }
 
 void draw() {
@@ -39,6 +49,11 @@ void drawScenery() {
   background(0, 0, 255);
   fill(color(194, 178, 128));
   rect(0, height-sandHeight, width, height-sandHeight);
+  fill(0);
+  for (int i = 0; i < numSpecs; ++i) {
+    rect(sandSpecs[i][0], sandSpecs[i][1], 1, 1);
+  }
+  starFish.display();
   for (SeaWeed s : seaweed) {
     s.display();
   }
