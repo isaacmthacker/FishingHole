@@ -39,6 +39,7 @@ class StarFish extends SeaLife {
     for (float[] pnt : path) {
       vertex(pnt[0], pnt[1]);
     }
+    vertex(path[0][0], path[0][1]);
     endShape();
   }
 }

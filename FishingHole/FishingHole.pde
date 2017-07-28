@@ -4,12 +4,20 @@ int numSeaWeed = 20;
 ArrayList<SeaWeed> seaweed = new ArrayList<SeaWeed>();
 float sandHeight;
 
-ArrayList<Bubbles> bubbles = new ArrayList<Bubbles>();
+BubbleMaker bubbleMaker = new BubbleMaker();
+//ArrayList<Bubbles> bubbles = new ArrayList<Bubbles>();
 
 int numSpecs = int(random(50, 100));
 float[][] sandSpecs;
 
 StarFish starFish;
+
+Jellyfish jellyFish;
+
+FishingLure lure;
+
+
+Point[] pnts = {new Point(100, 100), new Point(200, 200), new Point(300, 300), new Point(400, 400)};
 
 void setup() {
   size(1300, 700);
@@ -24,25 +32,22 @@ void setup() {
     sandSpecs[i][1] = random(height-sandHeight, height);
   }
   starFish = new StarFish();
+  jellyFish = new Jellyfish();
+  lure = new FishingLure();
 }
 
 void draw() {
   drawScenery();
   school.run();
-  if (random(1) < 0.001 && bubbles.size() < 3) {
-    bubbles.add(new Bubbles());
-  }
-  if (!bubbles.isEmpty()) {
-    for (int i = 0; i < bubbles.size(); ++i) {
-      Bubbles b = bubbles.get(i);
-      b.move();
-      b.display();
-      if (b.cy < -b.bubRectH) {
-        bubbles.remove(i);
-      }
-    }
-  }
+  bubbleMaker.run();
+  lure.run();
 }
+
+
+void mousePressed() {
+  lure.clicked();
+}
+
 
 
 void drawScenery() {
