@@ -1,12 +1,12 @@
 class FishingLure {
   float x;
   float y;
-  int lureSize = 25;
+  final int lureSize = 25;
   Point intersectPoint;
-  float depth = 0;
-  int vel = 3;
+  int vel = 5;
   boolean movingDown = false;
   boolean movingUp = false;
+  boolean caughtFish = false;
   FishingLure() {
     x = mouseX;
     y = 0;
@@ -14,36 +14,35 @@ class FishingLure {
   }
 
   void display() {
-    y += depth;
-    line(x, 0, x, depth);
+    line(x, 0, x, y);
     strokeWeight(3);
     line(x, y, x, y+lureSize);
     noFill();
     arc(x, y+1.5*lureSize, lureSize, lureSize, -PI/2, PI);
     strokeWeight(1);
-    y -= depth;
   }
 
   boolean isMoving() {
-    if (movingDown || movingUp) {
-      println("moving");
-    }
     return movingDown || movingUp;
   }
 
   void move() {
-    depth += vel;
-    //y += depth;
+    y += vel;
+    if (y >= height-sandHeight) {
+      reel();
+    }
   }
 
   void update() {
     x = mouseX;
+    intersectPoint.x = x-lureSize/2.0;
+    intersectPoint.y = y+1.5*lureSize;
   }
 
   void clicked() {
     if (!isMoving()) {
       cast();
-    } else {
+    } else if (!movingUp) {
       reel();
     }
   }
@@ -54,18 +53,32 @@ class FishingLure {
   }
 
   void reel() {
-    println("reel");
     movingDown = false;
     movingUp = true;
     vel *= -1;
-    println(movingDown, movingUp, vel);
+  }
+
+  boolean caughtFish() {
+    if (movingDown) {
+      return false;
+    } else {
+      if (!caughtFish) {
+        return true;
+      } else {
+        return false;
+      }
+    }
+  }
+
+  void release() {
+    caughtFish = false;
   }
 
   void run() {
     if (isMoving()) {
       move();
     }
-    if (y+depth <= 0) {
+    if (y <= 0) {
       movingUp = false;
       vel = abs(vel);
     }
